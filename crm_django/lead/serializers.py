@@ -21,6 +21,8 @@ class LeadSerializer(serializers.ModelSerializer):
             'estimated_value',
             'status',
             'priority',
+            'created_at',
+            'modified_at',
         )
 
 # fieldsの場合　This field is required 入力必須のエラー  read_only_fieldsに入れると必須回避
