@@ -4,12 +4,20 @@
       <div class="column is-12">
         <h1 class="title">{{ lead.company }}</h1>
 
-        <router-link :to="{ name:'EditLead', params: {id: lead.id}}" class="button is-right">Edit</router-link>
+        <router-link
+          :to="{ name: 'EditLead', params: { id: lead.id } }"
+          class="button is-right"
+          >Edit</router-link
+        >
       </div>
 
       <div class="column is-6">
         <div class="box">
           <h2 class="subtitle">Details</h2>
+
+          <template v-if="lead.assigned_to">
+            <p><strong>Assigned to: </strong>{{ lead.assigned_to.username }}</p>
+          </template>
 
           <p><strong>Status: </strong>{{ lead.status }}</p>
           <p><strong>Priority: </strong>{{ lead.priority }}</p>
@@ -35,7 +43,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   name: "Lead",
@@ -45,25 +53,25 @@ export default {
     };
   },
   mounted() {
-      this.getLead()
+    this.getLead();
   },
   methods: {
-      async getLead() {
-          this.$store.commit('setIsLoading', true)
+    async getLead() {
+      this.$store.commit("setIsLoading", true);
 
-          const leadID = this.$route.params.id
+      const leadID = this.$route.params.id;
 
-          axios
-              .get(`/api/v1/leads/${leadID}/`)
-              .then(response => {
-                  this.lead = response.data
-              })
-              .catch(error => {
-                  console.log(error)
-              })
+      axios
+        .get(`/api/v1/leads/${leadID}/`)
+        .then((response) => {
+          this.lead = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
-          this.$store.commit('setIsLoading', false)
-      }
+      this.$store.commit("setIsLoading", false);
+    },
   },
 };
 </script>
