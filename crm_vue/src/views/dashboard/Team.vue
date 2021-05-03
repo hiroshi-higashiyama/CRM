@@ -8,7 +8,9 @@
       <div class="column is-12">
         <h2 class="subtitle">Members</h2>
 
+        <template v-if="team.created_by.id === parseInt($store.state.user.id)">
         <router-link :to="{'name': 'AddMember'}" class="button is-primary">Add member</router-link>
+        </template>
 
         <table class="table is-fullwidth">
           <thead>
@@ -37,6 +39,7 @@ export default {
     return {
       team: {
         members: [],
+        created_by: {}
       },
     };
   },
