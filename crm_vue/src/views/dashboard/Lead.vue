@@ -61,7 +61,7 @@ export default {
 
       const leadID = this.$route.params.id;
 
-      axios
+      await axios
         .get(`/api/v1/leads/${leadID}/`)
         .then((response) => {
           this.lead = response.data;
