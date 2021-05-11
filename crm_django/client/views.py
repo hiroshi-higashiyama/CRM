@@ -5,8 +5,8 @@ from rest_framework import viewsets
 
 from team.models import Team
 
-from .models import Client
-from .serializers import ClientSerializer
+from .models import Client, Note
+from .serializers import ClientSerializer, NoteSerializer
 
 class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
@@ -35,3 +35,19 @@ postするときcreated_byは入力必須であるため、リクエストユー
 first()を使う理由
 filterはリストを取得するのでfirstで指定する
 """
+
+class NoteViewSet(viewsets.ModelViewSet):
+    serializer_class = NoteSerializer
+    queryset = Note.objects.all()
+
+    def get_queryset(self):
+        team = Team.objects.filter(members__in=[self.request.user]).first()
+        client_id = self.request.GET.get('client_id')
+
+        return self.queryset.filter(team=team).filter(client_id=client_id)
+    
+    def perform_create(self, serializer):
+        team = Team.objects.filter(members__in=[self.request.user]).first()
+        client_id = self.request.data['client_id']
+
+        serializer.save(team=team, created_by=self.request.user, client_id=client_id)
