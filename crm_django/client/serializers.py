@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Client
+from .models import Client, Note
 
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,3 +23,12 @@ class ClientSerializer(serializers.ModelSerializer):
 
 # fieldsの場合　This field is required 入力必須のエラー  read_only_fieldsに入れると必須回避
 # フロントのformにある項目はfieldsでOK　ないのはread_only_fields、 viewsのオーバーライドで回避する
+
+class NoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
+        fields = (
+            'id',
+            'name',
+            'body',
+        )

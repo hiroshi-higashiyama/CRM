@@ -30,6 +30,25 @@
           <p><strong>Website: </strong>{{ client.website }}</p>
         </div>
       </div>
+
+      <hr />
+
+      <div class="column is-12">
+        <h2 class="subtitle">Notes</h2>
+
+        <router-link :to="{ name: 'AddNote', params: { id: client.id } }" class="button is-success mb-6"
+          >Add note</router-link
+        >
+
+        <div class="box" v-for="note in notes" v-bind:key="note.id">
+          <h3 class="is-size-4">{{ note.name }}</h3>
+          <p>{{ note.body }}</p>
+
+          <router-link :to="{ name: 'EditNote', params: { id: client.id, note_id: note.id } }" class="button is-success mt-6"
+          >Edit note</router-link
+        >
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -42,6 +61,7 @@ export default {
   data() {
     return {
       client: {},
+      notes: [],
     };
   },
   mounted() {
@@ -57,6 +77,15 @@ export default {
         .get(`/api/v1/clients/${clientID}/`)
         .then((response) => {
           this.client = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      await axios
+        .get(`/api/v1/notes/?client_id=${clientID}`)
+        .then((response) => {
+          this.notes = response.data;
         })
         .catch((error) => {
           console.log(error);
