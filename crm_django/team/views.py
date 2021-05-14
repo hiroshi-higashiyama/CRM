@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.http import Http404
 
-
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -16,7 +15,7 @@ class TeamViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.queryset.filter(members__in=[self.request.user]).first()
-
+    
     def perform_create(self, serializer):
         obj = serializer.save(created_by=self.request.user)
         obj.members.add(self.request.user)

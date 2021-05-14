@@ -6,7 +6,7 @@ from team.serializers import UserSerializer
 
 class LeadSerializer(serializers.ModelSerializer):
     assigned_to = UserSerializer(read_only=True)
-
+    
     class Meta:
         model = Lead
         read_only_fields = (
@@ -29,6 +29,3 @@ class LeadSerializer(serializers.ModelSerializer):
             'created_at',
             'modified_at',
         )
-
-# fieldsの場合　This field is required 入力必須のエラー  read_only_fieldsに入れると必須回避
-# フロントのformにある項目はfieldsでOK　ないのはread_only_fields、 viewsのオーバーライドで回避する
