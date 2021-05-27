@@ -4,14 +4,22 @@
       <div class="column is-12">
         <h1 class="title">Clients</h1>
 
-        <router-link to="/dashboard/clients/add">Add client</router-link>
+        <router-link
+          to="/dashboard/clients/add"
+          v-if="$store.state.team.max_leads > num_clients"
+          >Add client</router-link
+        >
 
-         <hr>
+        <div class="notification is-danger" v-else>
+          You have reached the top of your limitations. Please upgrade!
+        </div>
+
+        <hr />
 
         <form @submit.prevent="getClients">
           <div class="field has-addons">
             <div class="control">
-              <input type="text" class="input" v-model="query">
+              <input type="text" class="input" v-model="query" />
             </div>
             <div class="control">
               <button class="button is-success">Search</button>
@@ -81,7 +89,8 @@ export default {
       showNextButton: false,
       showPreviousButton: false,
       currentPage: 1,
-      query: ''
+      query: "",
+      num_clients: 0,
     };
   },
   mounted() {
@@ -101,6 +110,10 @@ export default {
 
       this.showNextButton = false;
       this.showPreviousButton = false;
+
+      await axios.get(`/api/v1/clients/`).then((response) => {
+        this.num_clients = response.data.count;
+      });
 
       await axios
         .get(`/api/v1/clients/?page=${this.currentPage}&search=${this.query}`)

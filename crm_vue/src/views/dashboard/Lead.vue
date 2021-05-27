@@ -92,7 +92,7 @@ export default {
         .post(`/api/v1/convert_lead_to_client/`, data)
         .then((response) => {
           console.log("converted to client");
-          
+
           this.$router.push("/dashboard/clients");
         })
         .catch((error) => {
