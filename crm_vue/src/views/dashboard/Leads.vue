@@ -4,14 +4,22 @@
       <div class="column is-12">
         <h1 class="title">Leads</h1>
 
-        <router-link to="/dashboard/leads/add">Add lead</router-link>
+        <router-link
+          to="/dashboard/leads/add"
+          v-if="$store.state.team.max_leads > num_leads"
+          >Add lead</router-link
+        >
 
-        <hr>
+        <div class="notification is-danger" v-else>
+          You have reached the top of your limitations. Please upgrade!
+        </div>
+
+        <hr />
 
         <form @submit.prevent="getLeads">
           <div class="field has-addons">
             <div class="control">
-              <input type="text" class="input" v-model="query">
+              <input type="text" class="input" v-model="query" />
             </div>
             <div class="control">
               <button class="button is-success">Search</button>
@@ -83,7 +91,8 @@ export default {
       showNextButton: false,
       showPreviousButton: false,
       currentPage: 1,
-      query: ''
+      query: "",
+      num_leads: 0,
     };
   },
   mounted() {
@@ -104,17 +113,19 @@ export default {
       this.showNextButton = false;
       this.showPreviousButton = false;
 
+      await axios.get(`/api/v1/leads/`).then((response) => {
+        console.log(response.data);
+        this.num_leads = response.data.count;
+      });
+
       await axios
         .get(`/api/v1/leads/?page=${this.currentPage}&search=${this.query}`)
         .then((response) => {
-          console.log(response.data);
-
           this.leads = response.data.results;
 
           if (response.data.next) {
             this.showNextButton = true;
           }
-
           if (response.data.previous) {
             this.showPreviousButton = true;
           }
@@ -123,7 +134,7 @@ export default {
           console.log(error);
         });
       this.$store.commit("setIsLoading", false);
-    }
+    },
   },
 };
 </script>
