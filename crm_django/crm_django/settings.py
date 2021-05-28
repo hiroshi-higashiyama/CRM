@@ -22,6 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '*n5lg)$a$wbhi905v2c89^@7=49k27z@y8&ict(y#$n*8^^j97'
 
+# Stripe
+STRIPE_PUB_KEY = 'pk_test_51HY5ySEXjed27ihpQhI3NBHkVU7dK1Zje3vhZL9qKeLjYpfHmiUMDudNQrwjN6QxhSj1sjPcGhyp5UfiyeAC8IfP009ks5mAH9'
+STRIPE_SECRET_KEY = 'sk_test_51HY5ySEXjed27ihpkxGLGLmyc1mO0mPYGPeySDha7J7etY0w1LXJ8ImE12rLfM6fDFbbHvkyt7eDSjZVs7WZTGKj00vNLrKcEg'
+
+STRIPE_PRICE_ID_SMALL_TEAM = 'price_1Iw5vMEXjed27ihpL0BPzmdB'
+STRIPE_PRICE_ID_BIG_TEAM = 'price_1Iw5yEEXjed27ihpRrWjH1gp'
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
